@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import styled from "styled-components";
+import { FormControl } from 'react-bootstrap';
 
 const Container = styled.div`
   display: flex;
@@ -35,29 +36,39 @@ const RightDiv = styled.div`
 const baseURL = `http://127.0.0.1:5000`;
 function App() {
   const [columns, setColumns] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios
-      .get(`${baseURL}/get_columns_table`)
+    axios.get(`${baseURL}/get_columns_table`)
       .then((response) => {
         setColumns(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         setColumns(null);
-      })
-
+      });
   }, []);
-  
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <Container>
       <LeftDiv>
+        {/* Seu conteúdo da esquerda aqui */}
       </LeftDiv>
       <RightDiv>
-        <Sidebar data={columns} />
+        <FormControl
+          type="search"
+          placeholder="Search..."
+          aria-label="Search"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <Sidebar data={columns} searchTerm={searchTerm} />
       </RightDiv>
     </Container>
-
   );
 }
 
