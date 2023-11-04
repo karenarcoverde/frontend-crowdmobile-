@@ -21,15 +21,13 @@ const Sidebar = ({ data }) => {
             aria-expanded={open[index]}
             role="button"
             tabIndex={0}
-            style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', alignItems: 'center', marginLeft: '20px' }} // This makes the div look clickable and prevents text selection
+            style={{ cursor: 'pointer', userSelect: 'none', display: 'flex', alignItems: 'center', marginLeft: '20px' }} 
           >
-            {/* Chevron icon on the left */}
             {open[index] ? <ChevronUp /> : <ChevronDown />}
-            {/* Table name next to the icon */}
             <span style={{ marginLeft: '5px' }}>{item.table_info.table_name}</span>
           </div>
           <Collapse in={open[index]}>
-            <div style={{ paddingLeft: '40px' }}> {/* This adds padding to the collapsed content */}
+            <div style={{ paddingLeft: '40px' }}>
               {item.table_info.columns_name.map((colName, colIndex) => (
                 <div key={colIndex}>{colName}</div>
               ))}
