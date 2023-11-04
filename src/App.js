@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import styled from "styled-components";
-import { FormControl } from 'react-bootstrap';
+import { Form, FormControl } from 'react-bootstrap';
 
 const Container = styled.div`
   display: flex;
@@ -33,40 +33,86 @@ const RightDiv = styled.div`
   }
 `;
 
+const SearchContainer = styled.div`
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+`;
+
+
 const baseURL = `http://127.0.0.1:5000`;
 function App() {
   const [columns, setColumns] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredColumns, setFilteredColumns] = useState([]);
+  const [searchTable, setSearchTable] = useState('');
+  const [searchColumn, setSearchColumn] = useState('');
 
   useEffect(() => {
     axios.get(`${baseURL}/get_columns_table`)
       .then((response) => {
         setColumns(response.data);
+        setFilteredColumns(response.data); // Initially, all data is shown
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setColumns(null);
+        setColumns([]);
       });
   }, []);
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  useEffect(() => {
+    let filteredData = columns;
+  
+    // Filter by table name
+    if (searchTable) {
+      filteredData = filteredData.filter(item =>
+        item.table_info.table_name.toLowerCase().includes(searchTable.toLowerCase())
+      );
+    }
+  
+    // Filter by column name within each table
+    if (searchTable && searchColumn) {
+      filteredData = filteredData.map(item => {
+        const filteredColumns = item.table_info.columns_name.filter(columnName =>
+          columnName.toLowerCase().includes(searchColumn.toLowerCase())
+        );
+        // Only return the table if it has matching columns
+        if (filteredColumns.length > 0) {
+          return { ...item, table_info: { ...item.table_info, columns_name: filteredColumns } };
+        }
+        return null;
+      }).filter(Boolean); // Remove null entries where no columns matched
+    }
+  
+    setFilteredColumns(filteredData);
+  }, [searchTable, searchColumn, columns]);
 
   return (
     <Container>
       <LeftDiv>
-        {/* Seu conteúdo da esquerda aqui */}
+        {/* LeftDiv content goes here */}
       </LeftDiv>
       <RightDiv>
-        <FormControl
-          type="search"
-          placeholder="Search..."
-          aria-label="Search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <Sidebar data={columns} searchTerm={searchTerm} />
+        <SearchContainer>
+          <Form>
+            <FormControl
+              type="text"
+              placeholder="Search by table name..."
+              className="mr-sm-2 mb-2"
+              value={searchTable}
+              onChange={e => setSearchTable(e.target.value)}
+            />
+            {searchTable && (
+              <FormControl
+                type="text"
+                placeholder="Search by column name..."
+                className="mr-sm-2"
+                value={searchColumn}
+                onChange={e => setSearchColumn(e.target.value)}
+              />
+            )}
+          </Form>
+        </SearchContainer>
+        <Sidebar data={filteredColumns} />
       </RightDiv>
     </Container>
   );
