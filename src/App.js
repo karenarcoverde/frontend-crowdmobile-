@@ -42,7 +42,6 @@ const StyledTabs = styled(Tabs)`
   padding: 5px 5px 0 5px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  border-bottom-color: #fff;
 
   // Override the default width of nav-tabs
   .nav {
@@ -79,11 +78,6 @@ const StyledTabs = styled(Tabs)`
         border-bottom-color: transparent;
       }
     }
-  }
-
-  // If you need to style the bottom border of the active tab to match
-  &.tab-pane {
-    border-bottom: 1px solid #ddd;
   }
 `;
 
