@@ -26,7 +26,7 @@ const LeftDiv = styled.div`
 const RightDiv = styled.div`
   flex: 2;
   overflow-y: auto;
-  background-color: #f0f0f0;
+  background-color: #ffff;
 
   @media (max-width: 960px) {
     display: none;
@@ -86,6 +86,11 @@ function App() {
     setFilteredColumns(filteredData);
   }, [searchTable, searchColumn, columns]);
 
+  const clearFilters = () => {
+    setSearchTable('');
+    setSearchColumn('');
+  };
+
   return (
     <Container>
       <LeftDiv>
@@ -102,13 +107,22 @@ function App() {
               onChange={e => setSearchTable(e.target.value)}
             />
             {searchTable && (
-              <FormControl
-                type="text"
-                placeholder="Search by column name..."
-                className="mr-sm-2"
-                value={searchColumn}
-                onChange={e => setSearchColumn(e.target.value)}
-              />
+              <>
+                <FormControl
+                  type="text"
+                  placeholder="Search by column name..."
+                  className="mr-sm-2 mb-2"
+                  value={searchColumn}
+                  onChange={e => setSearchColumn(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="btn btn-primary mb-2 w-100"
+                  onClick={clearFilters}
+                >
+                  Clear
+                </button>
+              </>
             )}
           </Form>
         </SearchContainer>
