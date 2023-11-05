@@ -34,6 +34,20 @@ const InfoIconWrapper = styled.div`
   right: 0;
 `;
 
+const SectionTitle = styled.h5`
+  color: #333333;
+`;
+
+const JsonOutput = styled.pre`
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 0.9em;
+  line-height: 1.6;
+`;
+
 function TabSQL() {
     const [sqlQuery, setSqlQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -48,6 +62,21 @@ function TabSQL() {
 
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const jsonData = {
+        "features": [
+            {
+                "geometry": {
+                    "coordinates": ["<longitud>", "<latitud>"],
+                    "type": "Point"
+                },
+                "properties": {
+                    "intensity": "<number>"
+                },
+                "type": "Feature"
+            }
+        ]
+    }
+    const jsonString = JSON.stringify(jsonData, null, 2)
 
     return (
         <SqlEditorContainer>
@@ -75,7 +104,10 @@ function TabSQL() {
                     <Modal.Title>How to use SQL Tab</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Some interesting info about SQL queries can go here.
+                    <SectionTitle>Input:</SectionTitle>
+                    <p>Three columns, two columns must have longitud and latitud and the third must be the intensity</p>
+                    <SectionTitle>Output:</SectionTitle>
+                    <JsonOutput>{jsonString}</JsonOutput>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
