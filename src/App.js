@@ -4,6 +4,7 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import TabFilters from './components/TabFilters';
 import TabSQL from './components/TabSQL';
+import HeatMap from './components/HeatMap';
 import styled from "styled-components";
 import { Tabs, Tab } from 'react-bootstrap';
 
@@ -18,10 +19,14 @@ const Container = styled.div`
 
 const LeftDiv = styled.div`
   flex: 8;
+  display: flex;
+  flex-direction: column;
   background-color: #ffff;
+  height: 100vh;
 
   @media (max-width: 960px) {
     width: 100%;
+    height: auto;
   }
 `;
 
@@ -89,12 +94,13 @@ function App() {
       <LeftDiv>
         <StyledTabs defaultActiveKey="filters" id="uncontrolled-tab-example">
           <Tab eventKey="filters" title="Filters">
-            <TabFilters/>
+            <TabFilters />
           </Tab>
           <Tab eventKey="sql" title="SQL">
-            <TabSQL/>
+            <TabSQL />
           </Tab>
         </StyledTabs>
+        <HeatMap />
       </LeftDiv>
       <RightDiv>
         <Sidebar data={columns} />
