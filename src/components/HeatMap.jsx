@@ -1,5 +1,8 @@
+import React from "react";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import "leaflet.heat";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import styled from "styled-components";
 
 const MapWrapper = styled.div`
@@ -20,6 +23,36 @@ const MapWrapper = styled.div`
 function HeatMap() {
   const position = [-22.9068, -43.1729];
 
+  const HeatLayer = () => {
+    const map = useMap();
+
+    const geojsonData = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "intensity": 0.5
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [-43.1729, -22.9068]
+          }
+        },
+      ]
+    };
+
+    const heatPoints = geojsonData.features.map(feature => [
+      feature.geometry.coordinates[1],
+      feature.geometry.coordinates[0],
+      feature.properties.intensity
+    ]);
+
+    L.heatLayer(heatPoints).addTo(map);
+
+    return null;
+  };
+
   return (
     <MapWrapper>
       <MapContainer center={position} zoom={8} style={{ height: "100%", width: "100%" }}>
@@ -27,15 +60,10 @@ function HeatMap() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={position}>
-          <Popup>
-            Um popup exemplo. <br /> Facilmente customizável.
-          </Popup>
-        </Marker>
+        <HeatLayer />
       </MapContainer>
     </MapWrapper>
   );
 }
-
 
 export default HeatMap;
