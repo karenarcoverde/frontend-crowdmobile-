@@ -20,9 +20,9 @@ const SqlInputWrapper = styled.div`
 const StyledFormControl = styled(FormControl)`
   width: 100%;
   font-family: monospace;
-  min-height: 200px; // altura mínima
-  max-height: 200px; // altura máxima
-  overflow-y: auto; // permite rolagem se o texto exceder a altura
+  min-height: 200px;
+  max-height: 200px;
+  overflow-y: auto;
 `;
 
 const ActionWrapper = styled.div`
