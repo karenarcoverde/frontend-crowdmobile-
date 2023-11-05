@@ -55,7 +55,7 @@ function TabSQL() {
                 <StyledFormControl
                     as="textarea"
                     rows={10}
-                    placeholder={"SELECT \"CLIENT_LATITUDE\", \"CLIENT_LONGITUDE\", \"LATENCY\" FROM android_extracts_all"}
+                    placeholder={"SELECT \\\"CLIENT_LATITUDE\\\", \\\"CLIENT_LONGITUDE\\\", \\\"LATENCY\\\" FROM android_extracts_all"}
                     value={sqlQuery}
                     onChange={handleInputChange}
                 />
