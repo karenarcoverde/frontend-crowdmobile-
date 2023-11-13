@@ -40,17 +40,20 @@ function HeatMap({ data, isLoading }) {
     useEffect(() => {
       if (data && data.features && Array.isArray(data.features)) {
         const intensities = data.features.map(f => f.properties.intensity);
+        const minIntensity = Math.min(...intensities);
         const maxIntensity = Math.max(...intensities);
 
         const scaledHeatPoints = data.features.map(feature => [
           feature.geometry.coordinates[1],
           feature.geometry.coordinates[0],
-          feature.properties.intensity / maxIntensity
+          (feature.properties.intensity - minIntensity) / (maxIntensity - minIntensity)
         ]);
+        console.log(scaledHeatPoints)
   
         // Cria e adiciona a nova camada de calor
         heatLayerRef.current = L.heatLayer(scaledHeatPoints, {
-          max: 1.0 // Máximo escalado para 1
+          radius: 20,
+          blur: 10
         }).addTo(map);
       }
 
