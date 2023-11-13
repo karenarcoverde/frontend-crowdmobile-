@@ -51,7 +51,7 @@ function HeatMap({ data, isLoading }) {
         console.log(scaledHeatPoints)
 
         // Cria e adiciona a nova camada de calor
-        heatLayerRef.current = L.heatLayer(scaledHeatPoints).addTo(map);
+        heatLayerRef.current = L.heatLayer(scaledHeatPoints, {minOpacity:0.5, zIndex:4, maxZoom:18, radius:20}).addTo(map);
       }
 
       // Função de limpeza
@@ -85,4 +85,3 @@ function HeatMap({ data, isLoading }) {
 
 
 export default HeatMap;
-
