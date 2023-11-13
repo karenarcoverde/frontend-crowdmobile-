@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FormControl, Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 import { InfoCircle } from 'react-bootstrap-icons';
+import axios from 'axios';
+
 
 const SqlEditorContainer = styled.div`
   padding: 20px;
@@ -52,7 +54,7 @@ const JsonOutput = styled.pre`
   line-height: 1.6;
 `;
 
-function TabSQL() {
+function TabSQL({ baseURL, onQueryResult, setIsLoading }) {
     const [sqlQuery, setSqlQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
 
@@ -61,7 +63,21 @@ function TabSQL() {
     };
 
     const handleQuerySubmit = () => {
-        console.log(sqlQuery);
+        setIsLoading(true);
+        
+        const data = {
+            query: sqlQuery,
+        };
+        
+        axios.post(`${baseURL}/execute_sql`, data)
+             .then(response => {
+                onQueryResult(response.data);
+                setIsLoading(false);
+             })
+             .catch(error => {
+                console.error('Error posting data:', error);
+                setIsLoading(false);
+             });
     };
 
     const handleCloseModal = () => setShowModal(false);
@@ -88,7 +104,7 @@ function TabSQL() {
                 <StyledFormControl
                     as="textarea"
                     rows={10}
-                    placeholder={"SELECT \\\"CLIENT_LATITUDE\\\", \\\"CLIENT_LONGITUDE\\\", \\\"LATENCY\\\" FROM android_extracts_all"}
+                    placeholder={"SELECT \"CLIENT_LATITUDE\", \"CLIENT_LONGITUDE\", \"LATENCY\" FROM android_extracts_all"}
                     value={sqlQuery}
                     onChange={handleInputChange}
                 />

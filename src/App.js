@@ -76,6 +76,13 @@ const StyledTabs = styled(Tabs)`
 const baseURL = `http://127.0.0.1:5000`;
 function App() {
   const [columns, setColumns] = useState([]);
+  const [queryResult, setQueryResult] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleQueryResult = (data) => {
+    setQueryResult(data);
+  };
+
 
   useEffect(() => {
     axios.get(`${baseURL}/get_columns_table`)
@@ -96,10 +103,10 @@ function App() {
             <TabFilters />
           </Tab>
           <Tab eventKey="sql" title="SQL">
-            <TabSQL />
+            <TabSQL baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
           </Tab>
         </StyledTabs>
-        <HeatMap />
+        <HeatMap data={queryResult} isLoading={isLoading} />
       </LeftDiv>
       <RightDiv>
         <Sidebar data={columns} />

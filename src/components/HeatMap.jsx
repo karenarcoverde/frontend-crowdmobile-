@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef } from 'react';
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import styled from "styled-components";
+import { Spinner } from 'react-bootstrap';
 
 const MapWrapper = styled.div`
   flex-grow: 1;
@@ -20,50 +21,68 @@ const MapWrapper = styled.div`
   }
 `;
 
-function HeatMap() {
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 400; // Ensure it's above the map layers
+`;
+
+
+function HeatMap({ data, isLoading }) {
   const position = [-22.9068, -43.1729];
 
-  const HeatLayer = () => {
+  const HeatLayer = ({ data }) => {
     const map = useMap();
+    const heatLayerRef = useRef(null);
 
-    const geojsonData = {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "properties": {
-            "intensity": 0.5
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [-43.1729, -22.9068]
-          }
-        },
-      ]
-    };
+    useEffect(() => {
+      if (data && data.features && Array.isArray(data.features)) {
+        const intensities = data.features.map(f => f.properties.intensity);
+        const maxIntensity = Math.max(...intensities);
 
-    const heatPoints = geojsonData.features.map(feature => [
-      feature.geometry.coordinates[1],
-      feature.geometry.coordinates[0],
-      feature.properties.intensity
-    ]);
+        const scaledHeatPoints = data.features.map(feature => [
+          feature.geometry.coordinates[1],
+          feature.geometry.coordinates[0],
+          feature.properties.intensity / maxIntensity
+        ]);
+  
+        // Cria e adiciona a nova camada de calor
+        heatLayerRef.current = L.heatLayer(scaledHeatPoints, {
+          max: 1.0 // Máximo escalado para 1
+        }).addTo(map);
+      }
 
-    L.heatLayer(heatPoints).addTo(map);
+      // Função de limpeza
+      return () => {
+        if (heatLayerRef.current && map.hasLayer(heatLayerRef.current)) {
+          map.removeLayer(heatLayerRef.current);
+        }
+      };
+    }, [data, map]);
 
     return null;
   };
-
+  
   return (
     <MapWrapper>
       <MapContainer center={position} zoom={8} style={{ height: "100%", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <HeatLayer />
+        <HeatLayer data={data} />
+        {isLoading && (
+          <SpinnerWrapper>
+            <Spinner animation="border" variant="primary">
+            </Spinner>
+          </SpinnerWrapper>
+        )}
       </MapContainer>
     </MapWrapper>
   );
 }
 
+
 export default HeatMap;
+
