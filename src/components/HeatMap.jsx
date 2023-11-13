@@ -48,7 +48,6 @@ function HeatMap({ data, isLoading }) {
           feature.geometry.coordinates[0],
           (feature.properties.intensity - minIntensity) / (maxIntensity - minIntensity)
         ]);
-        console.log(scaledHeatPoints)
 
         // Cria e adiciona a nova camada de calor
         heatLayerRef.current = L.heatLayer(scaledHeatPoints, {minOpacity:0.5, zIndex:4, maxZoom:18, radius:20}).addTo(map);
