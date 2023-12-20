@@ -4,7 +4,9 @@
     font-family: 'Montserrat', sans-serif;
   }
 
-.hide-elements .leaflet-control-attribution,
-.hide-elements .leaflet-control-zoom {
-  display: none;
-}
+  .hide-map-controls .leaflet-control-zoom,
+  .hide-map-controls .leaflet-control-attribution {
+    display: none;
+  }
+  
+  
