@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.heat';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import styled from 'styled-components';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Button } from 'react-bootstrap';
 import domtoimage from 'dom-to-image';
 
 const MapWrapper = styled.div`
@@ -39,11 +39,12 @@ const ButtonWrapper = styled.div`
 
 const CustomButton = ({ onClick }) => (
   <ButtonWrapper onClick={onClick} style={{ cursor: 'pointer' }}>
-    <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 7L12 14M12 14L15 11M12 14L9 11" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M16 17H12H8" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z" stroke="#1C274C" strokeWidth="1.5"/>
-    </svg>
+    <Button variant="primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+      </svg>
+    </Button>
   </ButtonWrapper>
 );
 
