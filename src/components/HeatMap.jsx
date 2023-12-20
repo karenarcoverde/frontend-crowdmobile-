@@ -48,6 +48,13 @@ const CustomButton = ({ onClick }) => (
   </ButtonWrapper>
 );
 
+const MapContainerStyled = styled(MapContainer)`
+  .leaflet-control-attribution,
+  .leaflet-control-zoom {
+    display: none;
+  }
+`;
+
 function HeatMap({ data, isLoading }) {
   const position = [-22.9068, -43.1729];
   const [showDownloadButton, setShowDownloadButton] = useState(true);
@@ -93,6 +100,7 @@ function HeatMap({ data, isLoading }) {
       if (map) {
         setShowDownloadButton(false);
         const container = map.getContainer();
+        map._container.classList.add('hide-elements');
         domtoimage.toJpeg(container, {
           quality: 0.95,
           width: container.offsetWidth,
@@ -103,9 +111,11 @@ function HeatMap({ data, isLoading }) {
             link.download = 'heatmap.jpeg';
             link.href = dataUrl;
             link.click();
+            map._container.classList.remove('hide-elements');
           })
           .catch(function (error) {
             console.error('Erro ao baixar o mapa', error);
+            map._container.classList.remove('hide-elements');
           })
           .finally(() => {
             setShowDownloadButton(true);
@@ -114,11 +124,11 @@ function HeatMap({ data, isLoading }) {
     };
 
     return (
-      <React.Fragment>
+      <MapContainerStyled center={position} zoom={8} style={{ height: '100%', width: '100%' }} attributionControl={false} zoomControl={false}>
         {showDownloadButton && (
           <CustomButton onClick={downloadMap} />
         )}
-      </React.Fragment>
+      </MapContainerStyled>
     );
   };
 
@@ -143,3 +153,4 @@ function HeatMap({ data, isLoading }) {
 }
 
 export default HeatMap;
+

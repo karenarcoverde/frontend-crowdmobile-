@@ -3,3 +3,8 @@
     padding: 0;
     font-family: 'Montserrat', sans-serif;
   }
+
+.hide-elements .leaflet-control-attribution,
+.hide-elements .leaflet-control-zoom {
+  display: none;
+}
