@@ -125,7 +125,11 @@ function TabSQL({ baseURL, onQueryResult, setIsLoading }) {
                 </Modal.Header>
                 <Modal.Body>
                     <SectionTitle>Input:</SectionTitle>
-                    <p>Three columns, two columns must have longitud and latitud and the third must be the intensity</p>
+                    <ul>
+                        <li>Three columns: two columns must have longitud and latitud and the third must be the intensity</li>
+                        <li>Two columns: two columns must have longitud and latitud, the intensity will be user density</li>
+                        <li>Columns name must have double quotes</li>
+                    </ul>
                     <SectionTitle>Output:</SectionTitle>
                     <JsonOutput>{jsonString}</JsonOutput>
                 </Modal.Body>
