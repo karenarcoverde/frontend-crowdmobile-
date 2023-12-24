@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const TabFilters = () => {
+function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
     const [filters, setFilters] = useState([]);
     const [filterValues, setFilterValues] = useState({});
     const [intensity, setIntensity] = useState([]);
@@ -14,7 +14,7 @@ const TabFilters = () => {
     });
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/get_filters')
+        axios.get(`${baseURL}/get_filters`)
             .then(response => {
                 const formattedFilters = response.data[0].jsonb_agg.map(filter => ({
                     name: filter.column_name,
@@ -31,7 +31,7 @@ const TabFilters = () => {
                 console.error('Error fetching filters:', error);
             });
 
-        axios.get('http://127.0.0.1:5000/get_columns_table')
+        axios.get(`${baseURL}/get_columns_table`)
             .then(response => {
                 const tableInfo = response.data.find(table => table.table_name === "android_extracts_all");
                 if (tableInfo && Array.isArray(tableInfo.table_info.columns_name)) {
@@ -66,10 +66,30 @@ const TabFilters = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+    
+        const payload = {
+            start_date: dateTimeRange.startDate,
+            end_date: dateTimeRange.endDate,
+            ...filterValues,
+            intensity: selectedIntensity
+        };
+        setIsLoading(true);
+        
+        axios.post(`${baseURL}/generate_heatmap_byfilter`, payload)
+            .then(response => {
+                onQueryResult(response.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error('Error posting data:', error);
+                setIsLoading(false);
+            });
+    
         console.log('Filters submitted:', filterValues);
-        console.log('Selected Intensity:', selectedIntensity); 
+        console.log('Selected Intensity:', selectedIntensity);
         console.log('Date and Time Range:', dateTimeRange.startDate, dateTimeRange.endDate);
     };
+
     return (
         <Form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', marginLeft: '15px' }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>

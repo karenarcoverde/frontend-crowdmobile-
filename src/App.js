@@ -100,7 +100,7 @@ function App() {
       <LeftDiv>
         <StyledTabs defaultActiveKey="filters" id="uncontrolled-tab-example">
           <Tab eventKey="filters" title="Filters">
-            <TabFilters />
+            <TabFilters baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
           </Tab>
           <Tab eventKey="sql" title="SQL">
             <TabSQL baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
