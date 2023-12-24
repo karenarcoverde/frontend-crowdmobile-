@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const TabFilters = () => {
     const [filters, setFilters] = useState([]);
     const [filterValues, setFilterValues] = useState({});
+    const [intensity, setIntensity] = useState([]);
+    const [selectedIntensity, setSelectedIntensity] = useState('');
     const [dateTimeRange, setDateTimeRange] = useState({
         startDate: '',
         endDate: '',
@@ -28,6 +30,19 @@ const TabFilters = () => {
             .catch(error => {
                 console.error('Error fetching filters:', error);
             });
+
+        axios.get('http://127.0.0.1:5000/get_columns_table')
+            .then(response => {
+                const tableInfo = response.data.find(table => table.table_name === "android_extracts_all");
+                if (tableInfo && Array.isArray(tableInfo.table_info.columns_name)) {
+                    setIntensity(tableInfo.table_info.columns_name);
+                } else {
+                    console.error('Invalid data structure for column names');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching column names:', error);
+            });
     }, []);
 
     const handleSelectChange = (event, filterName) => {
@@ -45,12 +60,16 @@ const TabFilters = () => {
         });
     };
 
+    const handleIntensityChange = (event) => {
+        setSelectedIntensity(event.target.value);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Filters submitted:', filterValues);
+        console.log('Selected Intensity:', selectedIntensity); 
         console.log('Date and Time Range:', dateTimeRange.startDate, dateTimeRange.endDate);
     };
-
     return (
         <Form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', marginLeft: '15px' }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
@@ -90,6 +109,17 @@ const TabFilters = () => {
                     </Form.Group>
                 </div>
             ))}
+            <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
+                <Form.Group controlId="formIntensity">
+                    <Form.Label>INTENSITY</Form.Label>
+                    <Form.Select value={selectedIntensity} onChange={handleIntensityChange}>
+                        <option value=""> </option>
+                        {intensity.map((intensityOption, index) => (
+                            <option key={index} value={intensityOption}>{intensityOption}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
                 <Button variant="primary" type="submit">Run Filters</Button>
             </div>
