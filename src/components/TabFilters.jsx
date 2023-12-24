@@ -43,7 +43,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
             .catch(error => {
                 console.error('Error fetching column names:', error);
             });
-    }, []);
+    }, [baseURL]);
 
     const handleSelectChange = (event, filterName) => {
         setFilterValues({
