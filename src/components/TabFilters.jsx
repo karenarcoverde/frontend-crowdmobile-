@@ -73,6 +73,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
             ...filterValues,
             intensity: selectedIntensity
         };
+        console.log(payload);
         setIsLoading(true);
         
         axios.post(`${baseURL}/generate_heatmap_byfilter`, payload)
@@ -97,10 +98,10 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                     <Form.Label>Start Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
+                        step="1"  // Allowing second-level precision
                         value={dateTimeRange.startDate}
                         onChange={(e) => handleDateTimeChange(e, 'startDate')}
                     />
-
                 </Form.Group>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
@@ -108,6 +109,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                     <Form.Label>End Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
+                        step="1"  // Allowing second-level precision
                         value={dateTimeRange.endDate}
                         onChange={(e) => handleDateTimeChange(e, 'endDate')}
                     />
