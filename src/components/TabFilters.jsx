@@ -98,7 +98,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                     <Form.Label>Start Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
-                        step="1"  // Allowing second-level precision
+                        step="1"
                         value={dateTimeRange.startDate}
                         onChange={(e) => handleDateTimeChange(e, 'startDate')}
                     />
@@ -109,7 +109,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                     <Form.Label>End Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
-                        step="1"  // Allowing second-level precision
+                        step="1"
                         value={dateTimeRange.endDate}
                         onChange={(e) => handleDateTimeChange(e, 'endDate')}
                     />
