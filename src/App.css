@@ -1,7 +1,9 @@
-* {
+
+  html, body, #root {
+    height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif
   }
 
   .hide-map-controls .leaflet-control-zoom,
@@ -9,4 +11,26 @@
     display: none;
   }
   
-  
+  @media screen and (max-width: 768px) { 
+    .tab-filters-form-label {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-height: 768px) { 
+  .tab-filters-form-label {
+      font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tab-filters-form-group {
+      width: 200px !important;
+  }
+}
+
+@media screen and (max-height: 480px) {
+  .tab-filters-form-group {
+      width: 200px !important;
+  }
+}

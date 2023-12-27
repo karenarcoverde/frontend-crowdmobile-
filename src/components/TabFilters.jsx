@@ -94,8 +94,8 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
     return (
         <Form onSubmit={handleSubmit} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', marginLeft: '15px' }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
-                <Form.Group controlId="formStartDate">
-                    <Form.Label>Start Date and Time</Form.Label>
+                <Form.Group controlId="formStartDate" style={{ width: '400px' }} className="tab-filters-form-group">
+                    <Form.Label className="tab-filters-form-label">Start Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
                         step="1"
@@ -105,8 +105,8 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                 </Form.Group>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
-                <Form.Group controlId="formEndDate">
-                    <Form.Label>End Date and Time</Form.Label>
+                <Form.Group controlId="formEndDate" style={{ width: '400px' }} className="tab-filters-form-group">
+                    <Form.Label className="tab-filters-form-label">End Date and Time</Form.Label>
                     <Form.Control
                         type="datetime-local"
                         step="1"
@@ -117,8 +117,8 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
             </div>
             {filters.map((filter, index) => (
                 <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }} key={index}>
-                    <Form.Group>
-                        <Form.Label>{filter.name}</Form.Label>
+                    <Form.Group style={{ width: '400px' }} className="tab-filters-form-group">
+                        <Form.Label className="tab-filters-form-label">{filter.name}</Form.Label>
                         <Form.Select
                             value={filterValues[filter.name]}
                             onChange={(e) => handleSelectChange(e, filter.name)}
@@ -132,8 +132,8 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                 </div>
             ))}
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
-                <Form.Group controlId="formIntensity">
-                    <Form.Label>INTENSITY</Form.Label>
+                <Form.Group controlId="formIntensity" style={{ width: '400px' }} className="tab-filters-form-group">
+                    <Form.Label className="tab-filters-form-label">INTENSITY</Form.Label>
                     <Form.Select value={selectedIntensity} onChange={handleIntensityChange}>
                         <option value=""> </option>
                         {intensity.map((intensityOption, index) => (

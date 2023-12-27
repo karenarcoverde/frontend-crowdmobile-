@@ -12,6 +12,7 @@ const MapWrapper = styled.div`
   width: 100%;
   padding: 20px;
   min-height: 200px;
+  
 
   .leaflet-container {
     height: 100%;
@@ -130,7 +131,7 @@ function HeatMap({ data, isLoading }) {
 
   return (
     <MapWrapper>
-      <MapContainer center={position} zoom={8} style={{ height: '100%', width: '100%' }}>
+      <MapContainer center={position} zoom={8} style={{ height: '102%', width: '100%' }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />

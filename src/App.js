@@ -8,36 +8,41 @@ import HeatMap from './components/HeatMap';
 import styled from "styled-components";
 import { Tabs, Tab } from 'react-bootstrap';
 
-const Container = styled.div`
+const Header = styled.header`
+  background-color: #dcdcdc;
+  color: #808080;
+  height: 60px;
+  padding: 10px 20px;
   display: flex;
-  height: 100vh;
+  align-items: center;
+  justify-content: flex-start;
 
   @media (max-width: 960px) {
-    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  height: calc(100vh - 60px); // Subtract the height of the header
+
+  @media (max-width: 850px), (max-height: 850px) {
+    flex-direction: column-reverse;
   }
 `;
 
 const LeftDiv = styled.div`
-  flex: 8;
+  flex: 1; // Takes remaining space
   display: flex;
   flex-direction: column;
   background-color: #ffff;
-  height: 100vh;
-
-  @media (max-width: 960px) {
-    width: 100%;
-    height: auto;
-  }
+  overflow-y: auto; // Add scroll if content is too long
 `;
 
 const RightDiv = styled.div`
-  flex: 2;
+  flex: 0 0 20%;
   overflow-y: auto;
   background-color: #ffff;
-
-  @media (max-width: 960px) {
-    display: none;
-  }
 `;
 
 const StyledTabs = styled(Tabs)`
@@ -96,22 +101,28 @@ function App() {
   }, []);
 
   return (
-    <Container>
-      <LeftDiv>
-        <StyledTabs defaultActiveKey="filters" id="uncontrolled-tab-example">
-          <Tab eventKey="filters" title="Filters">
-            <TabFilters baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
-          </Tab>
-          <Tab eventKey="sql" title="SQL">
-            <TabSQL baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
-          </Tab>
-        </StyledTabs>
-        <HeatMap data={queryResult} isLoading={isLoading} />
-      </LeftDiv>
-      <RightDiv>
-        <Sidebar data={columns} />
-      </RightDiv>
-    </Container>
+    <>
+      <Header>
+        <img src="/favicon.ico" alt="Logo" style={{ height: '30px', marginRight: '10px' }} />
+        Mobile Networks Heat Map
+      </Header>
+      <Container>
+        <LeftDiv>
+          <StyledTabs defaultActiveKey="filters" id="uncontrolled-tab-example">
+            <Tab eventKey="filters" title="Filters">
+              <TabFilters baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
+            </Tab>
+            <Tab eventKey="sql" title="SQL">
+              <TabSQL baseURL={baseURL} onQueryResult={handleQueryResult} setIsLoading={setIsLoading} />
+            </Tab>
+          </StyledTabs>
+          <HeatMap data={queryResult} isLoading={isLoading} />
+        </LeftDiv>
+        <RightDiv>
+          <Sidebar data={columns} />
+        </RightDiv>
+      </Container>
+    </>
   );
 }
 
