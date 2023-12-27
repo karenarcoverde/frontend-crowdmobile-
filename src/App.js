@@ -26,7 +26,7 @@ const Container = styled.div`
   display: flex;
   height: calc(100vh - 60px); // Subtract the height of the header
 
-  @media (max-width: 850px), (max-height: 850px) {
+  @media (max-width: 915px), (max-height: 915px) {
     flex-direction: column-reverse;
   }
 `;
