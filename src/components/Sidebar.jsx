@@ -66,20 +66,23 @@ const Sidebar = ({ data }) => {
           />
           {searchTable && (
             <>
-              <FormControl
-                type="text"
-                placeholder="Search by column name..."
-                className="mr-sm-2 mb-2"
-                value={searchColumn}
-                onChange={e => setSearchColumn(e.target.value)}
-              />
-              <button
-                type="button"
-                className="btn btn-primary mb-2 w-100"
-                onClick={clearFilters}
-              >
-                Clear
-              </button>
+              <div style={{display:'flex', justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+                <FormControl
+                  type="text"
+                  placeholder="Search by column name..."
+                  className="mr-sm-2 mb-2"
+                  value={searchColumn}
+                  onChange={e => setSearchColumn(e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  className="btn btn-primary mb-2 w-40"
+                  onClick={clearFilters}
+                >
+                  Clear filters
+                </button>
+              </div>
             </>
           )}
         </Form>
