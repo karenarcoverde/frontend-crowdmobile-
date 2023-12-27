@@ -104,6 +104,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
                     />
                 </Form.Group>
             </div>
+            
             <div style={{ display: 'flex', alignItems: 'center', margin: '5px' }}>
                 <Form.Group controlId="formEndDate" style={{ width: '400px' }} className="tab-filters-form-group">
                     <Form.Label className="tab-filters-form-label">End Date and Time</Form.Label>

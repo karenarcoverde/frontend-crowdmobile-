@@ -31,6 +31,6 @@
 
 @media screen and (max-height: 480px) {
   .tab-filters-form-group {
-      width: 200px !important;
+      height: 200px !important;
   }
 }
