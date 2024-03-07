@@ -33,7 +33,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
 
         axios.get(`${baseURL}/get_columns_table`)
             .then(response => {
-                const tableInfo = response.data.find(table => table.table_name === "android_extracts_all");
+                const tableInfo = response.data.find(table => table.table_name === 'android_extracts_2');
                 if (tableInfo && Array.isArray(tableInfo.table_info.columns_name)) {
                     setIntensity(tableInfo.table_info.columns_name);
                 } else {
@@ -48,7 +48,7 @@ function TabFilters({ baseURL, onQueryResult, setIsLoading }) {
     const handleSelectChange = (event, filterName) => {
         setFilterValues({
             ...filterValues,
-            [filterName]: event.target.value
+            [filterName.toLowerCase()]: event.target.value
         });
     };
 

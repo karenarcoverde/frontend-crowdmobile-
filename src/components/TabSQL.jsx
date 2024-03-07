@@ -104,7 +104,7 @@ function TabSQL({ baseURL, onQueryResult, setIsLoading }) {
                 <StyledFormControl
                     as="textarea"
                     rows={10}
-                    placeholder={"SELECT \"CLIENT_LATITUDE\", \"CLIENT_LONGITUDE\", \"LATENCY\" FROM android_extracts_all"}
+                    placeholder={"SELECT client_latitude, client_longitude, latency FROM android_extracts_all"}
                     value={sqlQuery}
                     onChange={handleInputChange}
                 />
@@ -128,7 +128,6 @@ function TabSQL({ baseURL, onQueryResult, setIsLoading }) {
                     <ul>
                         <li>Three columns: two columns must have longitud and latitud and the third must be the intensity</li>
                         <li>Two columns: two columns must have longitud and latitud, the intensity will be user density</li>
-                        <li>Columns name must have double quotes</li>
                     </ul>
                     <SectionTitle>Output:</SectionTitle>
                     <JsonOutput>{jsonString}</JsonOutput>
